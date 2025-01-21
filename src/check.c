@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include "../libft/libft.h"
+#include "../ft_printf/libft/libft.h"
 #include <fcntl.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -41,7 +41,6 @@ void	get_player_inf(t_map *map, int i, int j)
 
 bool	check_elements(t_map *map)
 {
-	printf("simo li kayn\n");
 	int	(i), (j);
 	i = 1;
 	map->items = false;
@@ -71,38 +70,24 @@ bool	check_elements(t_map *map)
 	return (map->items && map->is_there_player && map->is_there_exit);
 }
 
-// bool	check_rectangle(t_map *map)
-// {
-// 	int	(i) = 1;
-// 	while (i < map->height)
-// 	{
-// 		if (ft_strlen(map->map[i]) - 1 != map->witdh)
-// 			return (false);
-// 		i++;
-// 	}
-// 	return (true);
-// }
-
 bool check_walls(t_map *map)
 {
-		printf("simo li kayn 2\n");
 	int (i) = 0;
 	while (i < map->witdh)
 	{
 		if (map->map[0][i] != '1' || map->map[map->height - 1][i] != '1')
-			return (printf("hna 1"),false);
+			return (false);
 		i++;
 	}
 	i = 1;
 	while (i < map->height)
 	{
 		if (map->map[i][0] != '1' || map->map[i][map->witdh - 1] != '1')
-			return (printf("hna 2"),false);
-		printf("[%s], w = %d len = %d\n", map->map[i], map->witdh, ft_strlen(map->map[i]));
+			return (false);
 		if (i == map->height - 1 && ft_strlen(map->map[i]) != map->witdh)
-			return (printf("hna 3"),false);
+			return (false);
 		if (i != map->height - 1 && ft_strlen(map->map[i]) - 1 != map->witdh)
-			return (printf("hna 4"),false);
+			return (false);
 		i++;
 	}
 	return (true);
@@ -115,8 +100,6 @@ char **read_map(const char *file, t_map *map, char **flood_map)
 	int		(i), (fd), (capacity);
 	i = 0;
 	capacity = 10;
-	// if (ft_strncmp(file, ".ber", 4) || ft_strncmp(file, "/.ber", 5))
-	// 	return (NULL);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
@@ -140,7 +123,7 @@ char **read_map(const char *file, t_map *map, char **flood_map)
 	map->map= realloc(map->map, sizeof(char *) * (i + 1));
 	if (!map->map)
 		return (free(map->map),close(fd),NULL);
-	// close(fd);
+	close(fd);
 	return (map->map);
 }
 
@@ -180,7 +163,6 @@ bool	is_playebal(t_map *map)
 
 	i = 0;
 	flood_map = malloc(sizeof(char *) * map->height);
-	printf("hana \n");
 	while (i < map->height)
 	{
 		j = 0;
@@ -193,7 +175,7 @@ bool	is_playebal(t_map *map)
 		i++;
 	}
 	flood_fill(flood_map, map->player_x, map->player_y);
-	printf("\n");
+	printf("\n\n");
 	for (int i = 0; i < map->height; i++) {
 		for (int j = 0; j < map->witdh; j++) {
 			printf("%c", flood_map[i][j]);
