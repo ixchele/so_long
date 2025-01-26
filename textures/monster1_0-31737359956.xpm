@@ -1,0 +1,38 @@
+/* XPM */
+static char *monster1_0_31737359956[] = {
+/* columns rows colors chars-per-pixel */
+"28 28 4 1 ",
+"  c black",
+". c #C000C0",
+"X c magenta",
+"o c None",
+/* pixels */
+"oooooooooooooooooooooooooooo",
+"ooooooooX.ooooooooooXXoooooo",
+"ooooooooXX.ooooooooXX.oooooo",
+"ooooooooooXXXXXXXXX.oooooooo",
+"ooooooooooXXXXXXXXX.oooooooo",
+"oooooooooXXXXXXXXXX..ooooooo",
+"ooooooooXXXXXXXXXXXX..oooooo",
+"oooooooXXXXXXXXXXXXXX..ooooo",
+"oooooooXXXXXXXXXXXXXXX.ooooo",
+"ooooooXXXXXXXXXXXXXXXX..oooo",
+"ooooooXXXXXXXXXXXXXXXX..oooo",
+"ooooooXXXXXXXXXXXXXXXX..oooo",
+"ooooooXXXXXXXXXXXXXXXX..oooo",
+"ooooooXXXXXXXXXXXXXXXX..oooo",
+"oooooooXXXXXXXXXXXXXX..ooooo",
+"ooooooXXXXXXXXXXXXXXX..ooooo",
+"ooooooXX.XXXXXXXXXXX...ooooo",
+"ooooooX...XXXXXXXXX.....oooo",
+"ooooooooXX.XXXXXXX...XXX.ooo",
+"oooooooXXXX...XX..... XX. oo",
+"oooooooXXXX.........   X.  o",
+"ooooooooXXXX.              o",
+"oooooooooXX..              o",
+"oooooooooo...o           ooo",
+"oooooooooooooooo       ooooo",
+"oooooooooooooooooooooooooooo",
+"oooooooooooooooooooooooooooo",
+"oooooooooooooooooooooooooooo"
+};

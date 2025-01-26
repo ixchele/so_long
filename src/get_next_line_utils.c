@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line_utils.h"
+#include "get_next_line/get_next_line.h"
 
 size_t	ft_gnl_strlen(char *s)
 {

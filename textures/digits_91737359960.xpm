@@ -1,0 +1,31 @@
+/* XPM */
+static char *digits_91737359960[] = {
+/* columns rows colors chars-per-pixel */
+"13 21 4 1 ",
+"  c black",
+". c yellow",
+"X c #0000C0",
+"o c cyan",
+/* pixels */
+"XXXXXXXXXXXXX",
+"XXoooooooooXX",
+"XoXoooooooXoX",
+"XooXoooooXooX",
+"XoooXXXXXoooX",
+"XoooXXXXXoooX",
+"XoooXXXXXoooX",
+"XoooXXXXXoooX",
+"XooXXXXXXXooX",
+"XoXoooooooXoX",
+"XXoooooooooXX",
+"XXXoooooooXoX",
+"X XXXXXXXXooX",
+"XX XXXXXXoooX",
+"X X XXXXXoooX",
+"XX XXXXXXoooX",
+"X X XXXXXoooX",
+"XX XoooooXooX",
+"X XoooooooXoX",
+"XXoooooooo.XX",
+"XXXXXXXXXXXXX"
+};

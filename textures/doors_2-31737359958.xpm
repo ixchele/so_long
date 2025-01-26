@@ -1,0 +1,37 @@
+/* XPM */
+static char *doors_2_31737359958[] = {
+/* columns rows colors chars-per-pixel */
+"28 28 3 1 ",
+"  c #808080",
+". c #C0C0C0",
+"X c None",
+/* pixels */
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"XX                         X",
+"XX XXXXXXXXXXXXXXXXXXXXXX   ",
+"XX X        XXXXXXXXXXXXX   ",
+"XX X     .. XXXXXXXXXXXXX   ",
+"XX X    ... XXXXXXXXXXXXX   ",
+"XX X   .... XXXXXXXXXXXXX   ",
+"XX X   .... XXXXXXXXXXXXX   ",
+"XX X  .. .. XXXXXXXXXXXXX   ",
+"XX X  .. .. XXXXXXXXXXXXX   ",
+"XX X ..  .. XXXXXXXXXXXXX   ",
+"XX X ...... XXXXXXXXXXXXX   ",
+"XX X     .. XXXXXXXXXXXXX   ",
+"XX X     .. XXXXX   XXXXX   ",
+"XX X        XXXX     XXXX   ",
+"XX X        XXX       XXX   ",
+"XX XXXXXXXXXXX   XXX  XXX   ",
+"XX XXXXXX   X   XXXXXXXXX   ",
+"XX XXXXX ..    XXXXXXXXXX   ",
+"XX XXXXX .    XXXXXXXXXXX   ",
+"XX XXXXX     XXXXXXXXXXXX   ",
+"XX XXXXXX   XXXXXXXXXXXXX   ",
+"XX XXXXXXXXXXXXXXXXXXXXXX   ",
+"XX XXXXXXXXXXXXXXXXXXXXXX   ",
+"XX                          ",
+"XX                          ",
+"XXX                         "
+};

@@ -1,0 +1,14 @@
+/* XPM */
+static char *check_b1737359963[] = {
+/* columns rows colors chars-per-pixel */
+"6 6 2 1 ",
+"  c black",
+". c None",
+/* pixels */
+"..... ",
+" ...  ",
+"  .   ",
+"     .",
+".   ..",
+".. ..."
+};

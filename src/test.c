@@ -1,72 +1,66 @@
+#include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include "get_next_line/get_next_line.h"
 
-typedef struct s_map {
-    char **map;
+typedef struct s_image {
+    void *img;
+    char *addr;
+    int bpp;
+    int line_length;
+    int endian;
+    int width;
     int height;
-} t_map;
+} t_image;
 
-char **read_map(char *file, t_map *map) {
-    char *line;
-    int i = 0;
-    int fd;
-    int capacity = 10;
+void	fill_with_texture(t_image *composite, t_image *texture)
+{
+	int	y;
+	int	x;
+	int	tex_y;
+	int	tex_x;
+	unsigned int	color;
+	char	*src_pixel;
+	char	*dst_pixel;
 
-    fd = open(file, O_RDONLY);
-    if (fd < 0)
-        return NULL;
-
-    map->map = malloc(sizeof(char *) * capacity);
-    if (!map->map) {
-        close(fd);
-        return NULL;
-    }
-
-    while ((line = get_next_line(fd))) {
-        if (i >= capacity) {
-            capacity *= 2;
-            map->map = realloc(map->map, sizeof(char *) * capacity);
-            if (!map->map) {
-                close(fd);
-                return NULL;
-            }
-        }
-        map->map[i++] = line;
-    }
-    map->map[i] = NULL;
-    map->height = i;
-
-    // Réajustement pour la taille exacte
-    map->map = realloc(map->map, sizeof(char *) * (i + 1));
-    if (!map->map) {
-        close(fd);
-        return NULL;
-    }
-
-    close(fd);
-    return map->map;
+	y = 0;
+	while (y < composite->height)
+	{
+		x = 0;
+		while (x < composite->width)
+		{
+			tex_x = x % texture->width;
+			tex_y = y % texture->height;
+			src_pixel = texture->addr + (tex_y * texture->line_length + tex_x * (texture->bpp / 8));
+			color = *(unsigned int *)src_pixel;
+			dst_pixel = composite->addr + (y * composite->line_length + x * (composite->bpp / 8));
+			*(unsigned int *)dst_pixel = color;
+			x++;
+		}
+		y++;
+	}
 }
 
 int main() {
-    t_map map1;
-    char **map1_ = read_map("~/Desktop/so_long/maps/map1.ber", &map1);
+    void *mlx = mlx_init();
+    int win_width = 800;
+    int win_height = 600;
+    void *win = mlx_new_window(mlx, win_width, win_height, "Remplir avec une texture (composite)");
 
-    // Affichage de la carte
-    for (int i = 0; i < map1.height; i++) {
-        for (int j = 0; map1_[i][j] != '\0'; j++) {
-            printf("%c", map1_[i][j]);
-        }
-        printf("\n");
+    t_image texture;
+    t_image composite;
+    texture.img = mlx_xpm_file_to_image(mlx, "../textures/Adventure/grass.xpm", &texture.width, &texture.height);
+    if (!texture.img)
+	{
+        printf("Erreur : Impossible de charger la texture.\n");
+        return 1;
     }
-
-    // Libération de la mémoire allouée
-    for (int i = 0; i < map1.height; i++) {
-        free(map1.map[i]);
-    }
-    free(map1.map);
-
+    texture.addr = mlx_get_data_addr(texture.img, &texture.bpp, &texture.line_length, &texture.endian);
+    composite.img = mlx_new_image(mlx, win_width, win_height);
+    composite.addr = mlx_get_data_addr(composite.img, &composite.bpp, &composite.line_length, &composite.endian);
+    composite.width = win_width;
+    composite.height = win_height;
+    fill_with_texture(&composite, &texture);
+    mlx_put_image_to_window(mlx, win, composite.img, 0, 0);
+    mlx_loop(mlx);
     return 0;
 }
