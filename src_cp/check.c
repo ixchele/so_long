@@ -342,8 +342,7 @@ int main(int ac , char **av)
 
 	if (ac < 2)
 		return (0);
-	map1.i_coin = 0;
-	map1.i_player = 0;
+	map1.index = 0;
 	map1.map = NULL;
 	map1.map = read_(av[1], &map1);
 	if (!map1.map)

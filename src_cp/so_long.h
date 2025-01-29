@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 #include <mlx.h>
-#include "../ft_printf/include/ft_printf.h"
+#include "../ft_printf/libft/libft.h"
 #include <fcntl.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -51,7 +51,6 @@ typedef struct	s_textures
     t_image player_left;
     t_image player_right;
     t_image composite;
-	t_image	frame;
 }	t_textures;
 
 typedef struct	s_cord
@@ -62,11 +61,19 @@ typedef struct	s_cord
 	size_t		witdh;
 }	t_cord;
 
+typedef struct	s_move
+{
+	bool	L;
+	bool	R;
+	bool	U;
+	bool	D;
+}	t_move;
+
 typedef struct s_player
 {
-	char	move;
-	char *	state;
+	t_move	move;
 	t_cord	cord;	
+
 }	t_player;
 
 typedef struct	s_map
@@ -77,12 +84,10 @@ typedef struct	s_map
 	bool	is_there_exit;
 	bool	is_there_player;
 	int		items;
-	int		i_player;
-	int		i_coin;
+	int		index;
 	t_player	player;
 	t_cord		cord;
 	t_textures	tex;
-	int		frames;
 
 }	t_map;
 
