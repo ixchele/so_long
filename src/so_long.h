@@ -27,6 +27,7 @@
 #define UP 65362
 #define RG 65363
 #define DW 65364
+#define ESC 65307
 
 typedef struct s_image
 {
@@ -45,6 +46,7 @@ typedef struct	s_textures
     t_image grass;
 	t_image	wall;
 	t_image	coin[6];
+	t_image	coin_;
     t_image player_idle;
     t_image player_up;
     t_image player_down;
@@ -82,7 +84,11 @@ typedef struct	s_map
 	t_player	player;
 	t_cord		cord;
 	t_textures	tex;
-	int		frames;
+	int		count;
+	int		dellay;
+	int		frame_nmb;
+	int		step;
+	bool	anim;
 
 }	t_map;
 

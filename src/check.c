@@ -58,7 +58,7 @@ bool	check_elements(t_map *map)
 bool check_walls(t_map *map)
 {
 	int (i) = 0;
-	printf("Width = %zu, Height = %zu\n", map->cord.witdh, map->cord.height);
+	// printf("Width = %zu, Height = %zu\n", map->cord.witdh, map->cord.height);
 	while (i < map->cord.witdh)
 	{
 		if (map->map[0][i] != '1' || map->map[map->cord.height - 1][i] != '1')
@@ -285,21 +285,21 @@ bool	is_playebal(t_map *map)
 		}
 		i++;
 	}
-	printf("\n--avant--\n");
-	for (int i = 0; i < map->cord.height; i++) {
-		for (int j = 0; j < map->cord.witdh; j++) {
-			printf("%c", flood_map[i][j]);
-		}
-		printf("\n");
-	}
+	// printf("\n--avant--\n");
+	// for (int i = 0; i < map->cord.height; i++) {
+	// 	for (int j = 0; j < map->cord.witdh; j++) {
+	// 		printf("%c", flood_map[i][j]);
+	// 	}
+	// 	printf("\n");
+	// }
 	flood_fill(flood_map, map->player.cord.x , map->player.cord.y);
-	printf("\n--apres--\n");
-	for (int i = 0; i < map->cord.height; i++) {
-		for (int j = 0; j < map->cord.witdh; j++) {
-			printf("%c", flood_map[i][j]);
-		}
-		printf("\n");
-	}
+	// printf("\n--apres--\n");
+	// for (int i = 0; i < map->cord.height; i++) {
+	// 	for (int j = 0; j < map->cord.witdh; j++) {
+	// 		printf("%c", flood_map[i][j]);
+	// 	}
+	// 	printf("\n");
+	// }
 	i = 0;
 	while (i < map->cord.height)
 	{
@@ -349,9 +349,10 @@ int main(int ac , char **av)
 	if (!map1.map)
 		return (printf("error"),1);
 	int map_valid = is_valid(&map1);
-	printf("x = %d, y = %d\n",map1.player.cord.x, map1.player.cord.y);
-	printf("is it valid = %d\n",map_valid);
+	// printf("x = %d, y = %d\n",map1.player.cord.x, map1.player.cord.y);
+	// printf("is it valid = %d\n",map_valid);
 	if (map_valid == false)
 		return (perror("eroor"),1);
+	map1.anim = false;
 	rendring(&map1);
 }
