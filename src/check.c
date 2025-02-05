@@ -24,11 +24,65 @@ void	get_player_inf(t_map *map, int i, int j)
 	map->player.cord.y = i;
 }
 
+void	get_exit_inf(t_map *map, int i, int j)
+{
+	map->is_there_exit = true;
+	map->exit.cord.x = j;
+	map->exit.cord.y = i;
+}
+
+void	get_coin_inf(t_map *map, int i, int j)
+{
+	t_coin	*tmp;
+
+	tmp = realloc(map->coin, sizeof(t_coin) * (map->items + 1));
+	if (!tmp)
+	{
+		printf("Realloc Failed\n");
+		return ;
+	}
+	map->coin = tmp;
+	map->coin[map->items].cord.x = j;
+	map->coin[map->items].cord.y = i;
+	map->coin[map->items].is_there = true;
+	map->items++;
+}
+
+void	get_enemy_inf(t_map *map, int i, int j)
+{
+	t_enemy	*tmp;
+
+	tmp = realloc(map->enemy, sizeof(t_enemy) * (map->skel + 1));
+	if (!tmp)
+	{
+		printf("Realloc Failed\n");
+		return ;
+	}
+	map->enemy = tmp;
+	map->enemy[map->skel].cord.x = j;
+	map->enemy[map->skel].cord.y = i;
+	map->enemy[map->skel].is_there = true;
+	map->skel++;
+}
+
 bool	check_elements(t_map *map)
 {
 	int	(i), (j);
 	i = 1;
-	map->items = false;
+	map->coin = malloc(sizeof(t_coin));
+	if (!map->coin)
+	{
+		printf("Malloc Failed\n");
+		return (false);
+	}
+	map->enemy = malloc(sizeof(t_enemy));
+	if (!map->enemy)
+	{
+		printf("Malloc Failed\n");
+		return (false);
+	}
+	map->items = 0;
+	map->skel = 0;
 	map->is_there_exit = false;
 	map->is_there_player = false;
 	while (i < map->cord.height)
@@ -41,11 +95,13 @@ bool	check_elements(t_map *map)
 			if (map->map[i][j] == 'P' && map->is_there_player == true)
 				return (false);
 			else if (map->map[i][j] == 'E' && map->is_there_exit == false)
-				map->is_there_exit = true;
+				get_exit_inf(map, i, j);
 			else if (map->map[i][j] == 'P' && map->is_there_player == false)
 				get_player_inf(map, i, j);
 			else if (map->map[i][j] == 'C')
-				map->items++;
+				get_coin_inf(map, i, j);
+			else if (map->map[i][j] == 'X')
+				get_enemy_inf(map, i, j);
 			else if (map->map[i][j] != '1' && map->map[i][j] != '0')
 				return (false);
 			j++;
@@ -58,7 +114,6 @@ bool	check_elements(t_map *map)
 bool check_walls(t_map *map)
 {
 	int (i) = 0;
-	// printf("Width = %zu, Height = %zu\n", map->cord.witdh, map->cord.height);
 	while (i < map->cord.witdh)
 	{
 		if (map->map[0][i] != '1' || map->map[map->cord.height - 1][i] != '1')
@@ -247,9 +302,7 @@ char **read_(const char *file, t_map *map)
 
 void	flood_fill(char **flood_map, size_t x, size_t y)
 {
-	// if (!flood_map[x] || !flood_map[x][y])
-	// 	return ;
-	if (flood_map[y][x] != 'C' && flood_map[y][x] != '0' && flood_map[y][x] != 'P')
+	if (flood_map[y][x] != 'C' && flood_map[y][x] != '0' && flood_map[y][x] != 'P' && flood_map[y][x] != 'X')
 		return ;
 	flood_map[y][x] = '#';
 	flood_fill(flood_map, x + 1, y);
@@ -285,21 +338,7 @@ bool	is_playebal(t_map *map)
 		}
 		i++;
 	}
-	// printf("\n--avant--\n");
-	// for (int i = 0; i < map->cord.height; i++) {
-	// 	for (int j = 0; j < map->cord.witdh; j++) {
-	// 		printf("%c", flood_map[i][j]);
-	// 	}
-	// 	printf("\n");
-	// }
 	flood_fill(flood_map, map->player.cord.x , map->player.cord.y);
-	// printf("\n--apres--\n");
-	// for (int i = 0; i < map->cord.height; i++) {
-	// 	for (int j = 0; j < map->cord.witdh; j++) {
-	// 		printf("%c", flood_map[i][j]);
-	// 	}
-	// 	printf("\n");
-	// }
 	i = 0;
 	while (i < map->cord.height)
 	{
@@ -344,13 +383,13 @@ int main(int ac , char **av)
 		return (0);
 	map1.i_coin = 0;
 	map1.i_player = 0;
+	map1.skel = 0;
 	map1.map = NULL;
 	map1.map = read_(av[1], &map1);
 	if (!map1.map)
 		return (printf("error"),1);
 	int map_valid = is_valid(&map1);
-	// printf("x = %d, y = %d\n",map1.player.cord.x, map1.player.cord.y);
-	// printf("is it valid = %d\n",map_valid);
+	printf("is it valid = %d\n",map_valid);
 	if (map_valid == false)
 		return (perror("eroor"),1);
 	map1.anim = false;

@@ -52,6 +52,11 @@ typedef struct	s_textures
     t_image player_down;
     t_image player_left;
     t_image player_right;
+	t_image	enemy_idle;
+	t_image	enemy_up;
+	t_image	enemy_down;
+	t_image	enemy_left;
+	t_image	enemy_right;
     t_image composite;
 	t_image	frame;
 }	t_textures;
@@ -67,9 +72,28 @@ typedef struct	s_cord
 typedef struct s_player
 {
 	char	move;
-	char *	state;
+	char 	*state;
 	t_cord	cord;	
 }	t_player;
+
+typedef struct s_coin
+{	
+	bool	is_there;
+	t_cord	cord;
+}	t_coin;
+
+typedef struct s_exit
+{	
+	bool	is_there;
+	t_cord	cord;
+}	t_exit;
+
+typedef struct	s_enemy
+{
+	bool	is_there;
+	char	move;
+	t_cord	cord;
+}	t_enemy;
 
 typedef struct	s_map
 {
@@ -79,9 +103,17 @@ typedef struct	s_map
 	bool	is_there_exit;
 	bool	is_there_player;
 	int		items;
+	int		skel; // index of enemy nmb
+	int		nmb_coins;
 	int		i_player;
 	int		i_coin;
+	int		i_exit;
+	int		i_enemy;
+	int		exit_flag;
 	t_player	player;
+	t_exit		exit;
+	t_coin		*coin;
+	t_enemy		*enemy;
 	t_cord		cord;
 	t_textures	tex;
 	int		count;
@@ -89,6 +121,7 @@ typedef struct	s_map
 	int		frame_nmb;
 	int		step;
 	bool	anim;
+	int 	rate;
 
 }	t_map;
 
