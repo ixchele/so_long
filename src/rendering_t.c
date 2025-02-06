@@ -6,12 +6,13 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:08:09 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/01 15:17:26 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/06 07:06:06 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <bits/time.h>
+#include <time.h>
 #include <math.h>
 #include <mlx.h>
 #include <stdbool.h>
@@ -193,27 +194,30 @@ void	draw_static_elements(t_map *map)
 	}
 }
 
-bool	is_valid_move_enemy(t_map *map, int n, int z)
+bool	is_valid_move_enemy(t_map *map, int n, int z, int i)
 {
-	map->anim = true;
-	if (map->map[map->player.cord.y + n][map->player.cord.x + z] != '1' 
-		&& map->map[map->player.cord.y + n][map->player.cord.x + z] != 'E')
+	map->anim_enemy = true;
+	if (map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != '1' 
+		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'E'
+		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'X'
+		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'C'
+		)
 		return (true);
-	if (map->map[map->player.cord.y + n][map->player.cord.x + z] == 'E' && !map->nmb_coins)
+	if (map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] == 'E' && !map->nmb_coins)
 		return (true);
-	map->anim = false;
+	map->anim_enemy = false;
 	return (false);
 }
 
 bool	is_valid_move_player(t_map *map, int n, int z)
 {
-	map->anim = true;
+	map->anim_player = true;
 	if (map->map[map->player.cord.y + n][map->player.cord.x + z] != '1' 
 		&& map->map[map->player.cord.y + n][map->player.cord.x + z] != 'E')
 		return (true);
 	if (map->map[map->player.cord.y + n][map->player.cord.x + z] == 'E' && !map->nmb_coins)
 		return (true);
-	map->anim = false;
+	map->anim_player = false;
 	return (false);
 }
 
@@ -237,7 +241,7 @@ int	key_press(int keycode, t_map *map)
 
 	if (keycode == ESC)
 		exit(0);
-	if (map->anim)
+	if (map->anim_player)
 		return (0);
 	if (keycode == LF && is_valid_move_player(map, 0, -1))
 		map->player.move = 'L';
@@ -267,7 +271,7 @@ void	animate_coin(t_map *map)
 	count++;
 }
 
-void	animate_enemy(t_map *map)
+void	animate_idle_enemy(t_map *map)
 {
 	static int	count = 0;
 
@@ -325,7 +329,7 @@ void	choose_frame(t_image *frame, t_image *sprite, int frame_nbr)
 	}
 }
 
-void clear_frame(t_image *frame, t_map *map)
+void clear_frame(t_image *frame, t_map *map)	
 {
 	int x;
 
@@ -344,11 +348,21 @@ void clear_frame(t_image *frame, t_map *map)
 
 void	animate_move(t_map *map, t_image *tex, int *frame_nmb, int *step, int coef_x, int coef_y)
 {
-	clear_frame(&map->tex.frame, map);
+	clear_frame(&map->tex.frame_player, map);
 	map->frame_nmb %= 6;
-	choose_frame(&map->tex.frame, tex, map->frame_nmb);
-	merge_player_images(map, &map->tex.composite, &map->tex.frame, map->player.cord.x * SCALE + coef_x * (map->step) , map->player.cord.y * SCALE + coef_y * (map->step), map->i_player);
-	map->step += 10;
+	choose_frame(&map->tex.frame_player, tex, map->frame_nmb);
+	merge_player_images(map, &map->tex.composite, &map->tex.frame_player, map->player.cord.x * SCALE + coef_x * (map->step_player) , map->player.cord.y * SCALE + coef_y * (map->step_player), map->i_player);
+	map->step_player += 10;
+	map->frame_nmb++;
+}
+
+void	animate_move_enemy(t_map *map, t_image *tex, int *frame_nmb, int *step, int coef_x, int coef_y, int i)
+{
+	clear_frame(&map->tex.frame_enemy, map);
+	map->frame_nmb %= 6;
+	choose_frame(&map->tex.frame_enemy, tex, map->frame_nmb);
+	merge_player_images(map, &map->tex.composite, &map->tex.frame_enemy, map->enemy[i].cord.x * SCALE + coef_x * (map->step_enemy) , map->enemy[i].cord.y * SCALE + coef_y * (map->step_enemy), map->i_enemy);
+	map->step_enemy += 10;
 	map->frame_nmb++;
 }
 
@@ -421,74 +435,168 @@ void	check_coin(t_map *map, int x, int y)
 	}
 }
 
-void	move_enemy(t_map *map, t_enemy *enemy)
+void	move_enemy(t_map *map, t_enemy *enemy, int i)
 {
-	if (enemy->move == 'L' && is_valid_move_enemy(map, 0, -1))
+	if (enemy->move == 'L' && is_valid_move_enemy(map, 0, -1, i))
 		enemy->cord.x--;
-	else if (enemy->move == 'R' && is_valid_move_enemy(map, 0, 1))
+	else if (enemy->move == 'R' && is_valid_move_enemy(map, 0, 1, i))
 		enemy->cord.x++;
-	else if (enemy->move == 'U' && is_valid_move_enemy(map, -1, 0))
+	else if (enemy->move == 'U' && is_valid_move_enemy(map, -1, 0, i))
 		enemy->cord.y--;
-	else if (enemy->move == 'D' && is_valid_move_enemy(map, 1, 0))
+	else if (enemy->move == 'D' && is_valid_move_enemy(map, 1, 0, i))
 		enemy->cord.y++;
 }
 
+char	get_random_move(void)
+{
+	static char	moves[] = {'U', 'D', 'L', 'R'};
+	return (moves[rand() % 4]);
+}
+
+void	enemy_moves(t_map *map)
+{
+	int i = 0;
+
+	srand(time(NULL));
+	while (i < map->skel)
+	{
+		map->enemy[i].move = get_random_move();
+		//move_enemy(map, &map->enemy[i], i);
+		i++;
+	}
+}
+
+void	check_enemy(t_map *map, int x, int y)
+{	
+	if (map->player.move == 'D' && map->map[y + 1][x] == 'X')
+		exit(0);
+	else if (map->player.move == 'U' && map->map[y - 1][x] == 'X')
+		exit(0);
+	else if (map->player.move == 'L' && map->map[y][x - 1] == 'X')
+		exit(0);
+	else if (map->player.move == 'R' && map->map[y][x + 1] == 'X')
+		exit(0);
+}
+
+void	animate_enemy(t_map *map, int i)
+{
+	int y = map->enemy[i].cord.y;
+	int	x = map->enemy[i].cord.x;
+
+	if (map->count_enemy % 50 == 0)
+	{
+		map->i_enemy++;
+		if (map->i_enemy == 1)
+		{
+			map->i_enemy = 0;
+			map->count_enemy = 0;
+		}
+	}
+	if (map->step_enemy >= SCALE)
+	{	
+		move_enemy(map, &map->enemy[i], i);
+		if (x != map->enemy[i].cord.x || y != map->enemy[i].cord.y)
+			remove_coin(map, x, y);
+		map->step_enemy = 0;
+		map->enemy[i].move = 'I';
+		map->anim_enemy = false;
+	}
+	map->dellay_enemy++;
+	if (map->dellay_enemy % map->rate == 0)
+	{
+		merge_images(&map->tex.composite, &map->tex.grass, SCALE * map->enemy[i].cord.x, SCALE * map->enemy[i].cord.y, 0xFF000000);
+		if (map->enemy[i].move == 'R')
+			animate_move_enemy(map, &map->tex.enemy_right, &map->frame_nmb, &map->step_enemy, 1, 0, i);
+		else if (map->enemy[i].move == 'L')
+			animate_move_enemy(map, &map->tex.enemy_left, &map->frame_nmb, &map->step_enemy, -1, 0, i);
+		else if (map->enemy[i].move == 'U')
+			animate_move_enemy(map, &map->tex.enemy_up, &map->frame_nmb, &map->step_enemy, 0, -1, i);
+		else if (map->enemy[i].move == 'D')
+			animate_move_enemy(map, &map->tex.enemy_down, &map->frame_nmb, &map->step_enemy, 0, 1, i);
+		else if (map->enemy[i].move == 'I')
+		{
+			clear_frame(&map->tex.frame_enemy, map);
+			choose_frame(&map->tex.frame_enemy, &map->tex.enemy_idle, map->i_enemy);
+			merge_enemy_images(map, &map->tex.composite, &map->tex.frame_enemy, SCALE * map->enemy[i].cord.x, SCALE * map->enemy[i].cord.y);
+		}
+	}
+	map->count_enemy++;
+}
+
+void	enemy_loop(t_map *map)
+{
+	int i = 0;
+	while (i < map->skel)
+	{
+		if (map->enemy[i].is_there == true)
+		{
+			//animate_idle_enemy(map);
+			animate_enemy(map, i);
+		}
+		i++;
+	}
+}
 
 void	animate_player(t_map *map)
 {
 	int y = map->player.cord.y;
 	int	x = map->player.cord.x;
+	
 	check_exit(map, x, y);
+	check_enemy(map, x, y);
 	check_coin(map, x, y);
-	if (map->count % 50 == 0)
+
+	if (map->count_player % 50 == 0)
 	{
 		map->i_player++;
 		if (map->i_player == 1)
 		{
 			map->i_player = 0;
-			map->count = 0;
+			map->count_player = 0;
 		}
 	}
-	if (map->step >= SCALE)
+	if (map->step_player >= SCALE)
 	{	
 		moove_player(map);
 		if (x != map->player.cord.x || y != map->player.cord.y)
 			remove_coin(map, x, y);
-		map->step = 0;
+		map->step_player = 0;
 		map->player.move = 'I';
-		map->anim = false;
+		map->anim_player = false;
 	}
-	map->dellay++;
-	if (map->dellay % map->rate == 0)
+	map->dellay_player++;
+	if (map->dellay_player % map->rate == 0)
 	{
 		merge_images(&map->tex.composite, &map->tex.grass, SCALE * map->player.cord.x, SCALE * map->player.cord.y, 0xFF000000);
 		if (map->player.move == 'R')
-			animate_move(map, &map->tex.player_right, &map->frame_nmb, &map->step, 1, 0);
+			animate_move(map, &map->tex.player_right, &map->frame_nmb, &map->step_player, 1, 0);
 		else if (map->player.move == 'L')
-			animate_move(map, &map->tex.player_left, &map->frame_nmb, &map->step, -1, 0);
+			animate_move(map, &map->tex.player_left, &map->frame_nmb, &map->step_player, -1, 0);
 		else if (map->player.move == 'U')
-			animate_move(map, &map->tex.player_up, &map->frame_nmb, &map->step, 0, -1);
+			animate_move(map, &map->tex.player_up, &map->frame_nmb, &map->step_player, 0, -1);
 		else if (map->player.move == 'D')
-			animate_move(map, &map->tex.player_down, &map->frame_nmb, &map->step, 0, 1);
+			animate_move(map, &map->tex.player_down, &map->frame_nmb, &map->step_player, 0, 1);
 		else if (map->player.move == 'I')
 		{
-			clear_frame(&map->tex.frame, map);
-			choose_frame(&map->tex.frame, &map->tex.player_idle, map->i_player);
-			merge_player_images(map, &map->tex.composite, &map->tex.frame, SCALE * map->player.cord.x, SCALE * map->player.cord.y, map->i_player);
+			clear_frame(&map->tex.frame_player, map);
+			choose_frame(&map->tex.frame_player, &map->tex.player_idle, map->i_player);
+			merge_player_images(map, &map->tex.composite, &map->tex.frame_player, SCALE * map->player.cord.x, SCALE * map->player.cord.y, map->i_player);
 		}
 	}
-	map->count++;
+	map->count_player++;
 }
 
 int game_loop(t_map *map)
 {
 	int y = map->player.cord.y;
 	int	x = map->player.cord.x;
+	enemy_moves(map);
 	animate_player(map);
 	animate_coin(map);
-	animate_enemy(map);
+	enemy_loop(map);
 	if (map->nmb_coins == 0)
 		animate_open_exit(map);
+	printf("x enemy %d, y enemy %d\n", map->enemy[0].cord.x, map->enemy[0].cord.y);
 	mlx_put_image_to_window(map->mlx, map->win, map->tex.composite.img, 0, 0);
 	return(1);
 }
@@ -522,10 +630,14 @@ int rendring(t_map *map)
 		return (-1);
 	int x = SCALE * map->cord.height;
 	int	y = SCALE * map->cord.witdh;
-	map->count = 0;
-	map->dellay = 0;
-	map->frame_nmb = 0;
-	map->step = 0;
+	map->count_enemy = 0;
+	map->dellay_enemy = 0;
+	map->count_player = 0;
+	map->dellay_player = 0;
+	map->frame_nmb_player = 0;
+	map->frame_nmb_enemy = 0;
+	map->step_player = 0;
+	map->step_enemy = 0;
 	map->player.move = 'I';
 	map->i_exit = 0;
 	map->i_enemy = 0;
@@ -533,8 +645,10 @@ int rendring(t_map *map)
 	map->nmb_coins = map->items;
 	int size = (map->cord.height * map->cord.witdh);
  	map->rate = 24000 / size;
-	map->tex.frame.img = mlx_xpm_file_to_image(map->mlx, "../textures/Adventure/grass.xpm", &map->tex.frame.width, &map->tex.frame.height);
-    map->tex.frame.addr = mlx_get_data_addr(map->tex.frame.img, &map->tex.frame.bpp, &map->tex.frame.line_length, &map->tex.frame.endian);
+	map->tex.frame_player.img = mlx_xpm_file_to_image(map->mlx, "../textures/Adventure/grass.xpm", &map->tex.frame_player.width, &map->tex.frame_player.height);
+    map->tex.frame_player.addr = mlx_get_data_addr(map->tex.frame_player.img, &map->tex.frame_player.bpp, &map->tex.frame_player.line_length, &map->tex.frame_player.endian);
+	map->tex.frame_enemy.img = mlx_xpm_file_to_image(map->mlx, "../textures/Adventure/grass.xpm", &map->tex.frame_enemy.width, &map->tex.frame_enemy.height);
+    map->tex.frame_enemy.addr = mlx_get_data_addr(map->tex.frame_enemy.img, &map->tex.frame_enemy.bpp, &map->tex.frame_enemy.line_length, &map->tex.frame_enemy.endian);
 	map->tex.coin_.img = mlx_xpm_file_to_image(map->mlx, "../textures/coin.xpm", &map->tex.coin_.width, &map->tex.coin_.height);
     map->tex.coin_.addr = mlx_get_data_addr(map->tex.coin_.img, &map->tex.coin_.bpp, &map->tex.coin_.line_length, &map->tex.coin_.endian);
     map->win = mlx_new_window(map->mlx, y, x, "so_long");

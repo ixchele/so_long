@@ -392,6 +392,8 @@ int main(int ac , char **av)
 	printf("is it valid = %d\n",map_valid);
 	if (map_valid == false)
 		return (perror("eroor"),1);
-	map1.anim = false;
+	map1.anim_enemy = false;
+	map1.anim_player = false;
+
 	rendring(&map1);
 }

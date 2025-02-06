@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:26:24 by zbengued          #+#    #+#             */
-/*   Updated: 2025/01/22 17:04:11 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/06 07:03:39 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ typedef struct	s_textures
 	t_image	enemy_left;
 	t_image	enemy_right;
     t_image composite;
-	t_image	frame;
+	t_image	frame_player;
+	t_image	frame_enemy;
 }	t_textures;
 
 typedef struct	s_cord
@@ -116,11 +117,17 @@ typedef struct	s_map
 	t_enemy		*enemy;
 	t_cord		cord;
 	t_textures	tex;
-	int		count;
-	int		dellay;
+	int	frame_nmb_player;
+    int	frame_nmb_enemy;
+    int	step_player;
+	int	step_enemy;
+	int		count_player;
+	int		count_enemy;
+	int		dellay_player;
+	int		dellay_enemy;
 	int		frame_nmb;
-	int		step;
-	bool	anim;
+	bool	anim_player;
+	bool	anim_enemy;
 	int 	rate;
 
 }	t_map;
