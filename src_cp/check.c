@@ -262,5 +262,5 @@ int main(int ac , char **av)
 	printf("is it valid = %d\n",map_valid);
 	if (map_valid == false)
 		return (perror("eroor"),1);
-	//rendring(&map1);
+	rendring(&map1);
 }

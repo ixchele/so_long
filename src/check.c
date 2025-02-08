@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 void	get_player_inf(t_map *map, int i, int j)
 {
@@ -392,7 +393,6 @@ int main(int ac , char **av)
 	printf("is it valid = %d\n",map_valid);
 	if (map_valid == false)
 		return (perror("eroor"),1);
-	map1.anim_enemy = false;
 	map1.anim_player = false;
 
 	rendring(&map1);

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 09:26:24 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/06 07:03:39 by zbengued         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -59,7 +47,7 @@ typedef struct	s_textures
 	t_image	enemy_right;
     t_image composite;
 	t_image	frame_player;
-	t_image	frame_enemy[100];
+	t_image	frame_enemy;
 }	t_textures;
 
 typedef struct	s_cord
@@ -93,12 +81,6 @@ typedef struct	s_enemy
 {
 	bool	is_there;
 	char	move;
-	int		i_enemy;
-    int		frame_nmb_enemy;
-	int		step_enemy;
-	int		count_enemy;
-	bool	anim_enemy;
-	float		dellay_enemy;
 	t_cord	cord;
 }	t_enemy;
 
@@ -115,6 +97,7 @@ typedef struct	s_map
 	int		i_player;
 	int		i_coin;
 	int		i_exit;
+	int		i_enemy;
 	int		exit_flag;
 	t_player	player;
 	t_exit		exit;
@@ -123,11 +106,16 @@ typedef struct	s_map
 	t_cord		cord;
 	t_textures	tex;
 	int	frame_nmb_player;
+    int	frame_nmb_enemy;
     int	step_player;
+	int	step_enemy;
 	int		count_player;
+	int		count_enemy;
 	int		dellay_player;
+	int		dellay_enemy;
 	int		frame_nmb;
 	bool	anim_player;
+	bool	anim_enemy;
 	int 	rate;
 
 }	t_map;
