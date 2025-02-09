@@ -11,25 +11,25 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <time.h>
+#include <math.h>
 
-
-char	get_random_move(void)
+int	get_distance(t_cord cord_p, t_cord cord_e)
 {
-	static char	moves[] = {'U', 'D', 'L', 'R'};
-	return (moves[rand() % 4]);
+	int distance = sqrt(pow((cord_p.x - cord_e.x), 2) + pow((cord_p.y - cord_e.y), 2)); // distance between player and enemy
+	return (distance);
 }
 
-void	enemy_moves(t_map *map)
+char get_best_move(t_map *map, int i)
 {
-	int i = 0;
-
-	srand(time(NULL));
-	while (i < map->skel)
-	{
-		map->enemy[i].move = get_random_move();
-		move_enemy(map, &map->enemy[i]);
-		i++;
-	}
+	int act_distance = get_distance(map->player.cord, map->enemy[i].cord);
+	if (act_distance < get_distance(map->player.cord, (t_cord){map->enemy[i].cord.x - 1, map->enemy[i].cord.y})
+		&& is_valid_move_enemy(map, 0, -1, i))
+		return ('L');
+	else if (act_distance < get_distance(map->player.cord, (t_cord){map->enemy[i].cord.x + 1, map->enemy[i].cord.y}))
+		return ('R');
+	else if (act_distance < get_distance(map->player.cord, (t_cord){map->enemy[i].cord.x, map->enemy[i].cord.y - 1}))
+		return ('U');
+	else if (act_distance < get_distance(map->player.cord, (t_cord){map->enemy[i].cord.x, map->enemy[i].cord.y + 1}))
+		return ('D');
+	return ('I');
 }
-

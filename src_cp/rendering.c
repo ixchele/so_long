@@ -156,7 +156,7 @@ void	draw_elements(t_map *map)
 			}
 			else if (x == map->player.cord.x && y == map->player.cord.y)
 			{
-				//merge_images(&map->tex.composite, &map->tex.grass, 70 * x, 70 * y, 0xFF000000);
+				merge_images(&map->tex.composite, &map->tex.grass, 70 * x, 70 * y, 0xFF000000);
 				merge_player_images(map,&map->tex.composite, &map->tex.player_idle, 70 * map->player.cord.x, 70 * map->player.cord.y, 0xFF000000);
 			}
 			else if (map->map[y][x] == 'E')
@@ -209,7 +209,7 @@ int	key_press(int keycode, t_map *map)
 		if (map->map[map->player.cord.y][map->player.cord.x] == 'E')
 			exit(0);
 		map->map[map->player.cord.y][map->player.cord.x] = '0';
-		//merge_images(&map->tex.composite, &map->tex.grass, 70 * x, 70 * y, 0xFF000000);
+		merge_images(&map->tex.composite, &map->tex.grass, 70 * x, 70 * y, 0xFF000000);
 		i++;
 		printf(" ##### ==> i = %d", i);
 	}

@@ -81,6 +81,8 @@ typedef struct s_coin
 {	
 	bool	is_there;
 	t_cord	cord;
+	unsigned 	i_coin;
+	bool	taken;
 }	t_coin;
 
 typedef struct s_exit
@@ -125,10 +127,11 @@ typedef struct	s_map
 	int	frame_nmb_player;
     int	step_player;
 	int		count_player;
-	int		dellay_player;
+	double		dellay_player;
 	int		frame_nmb;
 	bool	anim_player;
 	int 	rate;
+	int		new_rate;
 
 }	t_map;
 

@@ -46,6 +46,8 @@ void	get_coin_inf(t_map *map, int i, int j)
 	map->coin[map->items].cord.x = j;
 	map->coin[map->items].cord.y = i;
 	map->coin[map->items].is_there = true;
+	map->coin[map->items].taken = false;
+	map->coin[map->items].i_coin = 1;
 	map->items++;
 }
 
@@ -68,7 +70,7 @@ void	get_enemy_inf(t_map *map, int i, int j)
 
 bool	check_elements(t_map *map)
 {
-	int	(i), (j);
+	unsigned int	(i), (j);
 	i = 1;
 	map->coin = malloc(sizeof(t_coin));
 	if (!map->coin)
