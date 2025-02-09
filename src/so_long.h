@@ -16,11 +16,13 @@
 #include <mlx.h>
 #include "../ft_printf/include/ft_printf.h"
 #include <fcntl.h>
+#include <time.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 #include "get_next_line/get_next_line.h"
 
 #define LF 65361
@@ -112,11 +114,11 @@ typedef struct	s_map
 	bool	is_there_exit;
 	bool	is_there_player;
 	int		items;
-	int		skel; // index of enemy nmb
-	int		nmb_coins;
-	int		i_player;
+	int		skel;
+	int				nmb_coins;
+	unsigned int	i_player;
 	int		i_coin;
-	int		i_exit;
+	unsigned int		i_exit;
 	int		exit_flag;
 	t_player	player;
 	t_exit		exit;
@@ -135,7 +137,54 @@ typedef struct	s_map
 
 }	t_map;
 
-void	window_displayer(t_map *map);
 int 	rendring(t_map *map);
+int		get_pixel_color(t_image *img, int x, int y);
+void	put_pixel(t_image *img, int x, int y, unsigned int color);
+int		get_t(int trgb);
+
+void	merge_player_images(t_map *map, t_image *dest, t_image *src, int x, int y);
+void 	merge_exit_images(t_map *map, t_image *dest, t_image *src, int start_x, int start_y);
+void 	merge_coin_images(t_image *dest, t_image *src, int start_x, int start_y, unsigned int *index_x);
+void 	merge_images(t_image *dest, t_image *src, int start_x, int start_y, unsigned int transparent_color);
+void 	merge_enemy_images(t_map *map, t_image *src, int start_x, int start_y, int ind);
+void	fill_with_texture(t_image *composite, t_image *texture);
+
+void	draw_enemy(t_map *map);
+void	draw_coins(t_map *map);
+void	draw_static_elements(t_map *map);
+
+void	animate_coin(t_map *map);
+void	animate_idle_enemy(t_map *map, int i);
+void	animate_move(t_map *map, t_image *tex, int coef_x, int coef_y);
+void	animate_move_enemy(t_map *map, t_image *tex, int coef_x, int coef_y, int i);
+void	animate_open_exit(t_map *map);
+void	animate_enemy(t_map *map, int i);
+void	animate_player(t_map *map);
+
+
+double	get_distance(t_cord cord_p, t_cord cord_e);
+void	move_enemy(t_enemy *enemy);
+void	moove_player(t_map *map);
+char	get_random_move();
+char 	get_best_move(t_map *map, int i, int offset);
+void	validate_move(t_map *map, int i);
+bool	is_valid_move_enemy(t_map *map, int n, int z, int i);
+bool	is_valid_move_player(t_map *map, int n, int z);
+int		key_press(int keycode, t_map *map);
+
+void	choose_frame(t_image *frame, t_image *sprite, int frame_nbr);
+void 	clear_frame(t_image *frame, t_map *map);
+bool	compare_coords(t_cord *cord1, t_cord *cord2);
+void	check_enemy(t_map *map);
+void	remove_grass(t_map *map, int x, int y, int i);
+void	remove_coin(t_map *map, int x, int y);
+void	check_exit(t_map *map, int x, int y);
+void	check_coin(t_map *map, int x, int y);
+void	enemy_loop(t_map *map);
+int 	game_loop(t_map *map);
+int		ft_exit(int i);
+int 	rendring(t_map *map);
+
+
 
 #endif // !SO_LONG_H

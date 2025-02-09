@@ -18,6 +18,41 @@
 #include <string.h>
 #include <time.h>
 
+
+void	my_free(void *ptr)
+{
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+}
+
+void free_struct(t_map *map)
+{
+	int i = 0;
+	while (i < map->items)
+	{
+		my_free(&map->coin[i]);
+		i++;
+	}
+	my_free(map->coin);
+	i = 0;
+	while (i < map->skel)
+	{
+		my_free(&map->enemy[i]);
+		i++;
+	}
+	my_free(map->enemy);
+	i = 0;
+	while (map->map[i])
+	{
+		my_free(&map->map[i]);
+		i++;
+	}
+	my_free(map->map);
+}
+
 void	get_player_inf(t_map *map, int i, int j)
 {
 	map->is_there_player = true;

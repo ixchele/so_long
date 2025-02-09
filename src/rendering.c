@@ -11,20 +11,9 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <bits/time.h>
-#include <fcntl.h>
-#include <time.h>
-#include <math.h>
-#include <mlx.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 #define SCALE 70
 
-void merge_images(t_image *dest, t_image *src, int start_x, int start_y, unsigned int transparent_color);
 
 int	get_pixel_color(t_image *img, int x, int y)
 {
@@ -42,7 +31,7 @@ void	put_pixel(t_image *img, int x, int y, unsigned int color)
 	*(int *)pixel = color;
 }
 
-void merge_player_images(t_map *map, t_image *dest, t_image *src, int start_x, int start_y, unsigned int index_x)
+void merge_player_images(t_map *map, t_image *dest, t_image *src, int start_x, int start_y)
 {
 	unsigned int	y;
 	unsigned int	x;
@@ -52,9 +41,35 @@ void merge_player_images(t_map *map, t_image *dest, t_image *src, int start_x, i
 	y = 0;
 	while (y < SCALE)
 	{
-		x = index_x * SCALE;
+		x = map->i_player * SCALE;
 		i = 0;
-		while (x < SCALE * (index_x + 1))
+		while (x < SCALE * (map->i_player + 1))
+		{
+			color = get_pixel_color(src, x, y); // x + SCALE * pos_x
+			if (color != 0xFF000000)
+				put_pixel(dest, start_x + i, start_y + y, color);
+			else
+				put_pixel(dest, start_x + i, start_y + y, get_pixel_color(&map->tex.grass, 0, 0));
+			x++;
+			i++;
+		}
+		y++;
+	}
+}
+
+void merge_exit_images(t_map *map, t_image *dest, t_image *src, int start_x, int start_y)
+{
+	unsigned int	y;
+	unsigned int	x;
+	unsigned int	i;
+	unsigned		color;
+
+	y = 0;
+	while (y < SCALE)
+	{
+		x = map->i_exit * SCALE;
+		i = 0;
+		while (x < SCALE * (map->i_exit + 1))
 		{
 			color = get_pixel_color(src, x, y); // x + SCALE * pos_x
 			if (color != 0xFF000000)
@@ -145,7 +160,7 @@ void	fill_with_texture(t_image *composite, t_image *texture)
 	}	
 }
 
-void merge_enemy_images(t_map *map, t_image *dest, t_image *src, int start_x, int start_y, int ind)
+void merge_enemy_images(t_map *map, t_image *src, int start_x, int start_y, int ind)
 {
 	int			y;
 	int			x;
@@ -160,7 +175,7 @@ void merge_enemy_images(t_map *map, t_image *dest, t_image *src, int start_x, in
 		{
 			color = get_pixel_color(src, x, y); // x + 70 * pos_x
 			if (color != 0xFF000000)
-				put_pixel(dest, start_x + i, start_y + y, color);
+				put_pixel(&map->tex.composite, start_x + i, start_y + y, color);
 			x++;
 			i++;
 		}
@@ -523,7 +538,6 @@ char get_best_move(t_map *map, int i, int offset)
 	&& is_valid_move_enemy(map, 1, 0, i))
 		return ('D');
 	get_best_move(map, i, offset + 1);
-	//return (get_random_move(map, i));
 	return (get_random_move());
 }
 
@@ -566,7 +580,7 @@ void	animate_enemy(t_map *map, int i)
 		{
 			clear_frame(&map->tex.frame_enemy[i], map);
 			choose_frame(&map->tex.frame_enemy[i], &map->tex.enemy_idle, map->enemy[i].i_enemy);
-			merge_enemy_images(map, &map->tex.composite, &map->tex.frame_enemy[i], SCALE * map->enemy[i].cord.x, SCALE * map->enemy[i].cord.y, i);
+			merge_enemy_images(map, &map->tex.frame_enemy[i], SCALE * map->enemy[i].cord.x, SCALE * map->enemy[i].cord.y, i);
 		}
 	}
 	map->enemy[i].count_enemy++;
@@ -653,21 +667,10 @@ void	animate_player(t_map *map)
 		{
 			clear_frame(&map->tex.frame_player, map);
 			choose_frame(&map->tex.frame_player, &map->tex.player_idle, map->i_player);
-			merge_player_images(map, &map->tex.composite, &map->tex.frame_player, SCALE * map->player.cord.x, SCALE * map->player.cord.y, map->i_player);
+			merge_player_images(map, &map->tex.composite, &map->tex.frame_player, SCALE * map->player.cord.x, SCALE * map->player.cord.y);
 		}
 	}
 	map->count_player++;
-}
-
-void	print_map(t_map *map)
-{
-	int y = 0;
-	while (map->map[y])
-	{
-		printf("%s\n", map->map[y]);
-		y++;
-	}
-	printf("\n");
 }
 
 int game_loop(t_map *map)
@@ -677,10 +680,8 @@ int game_loop(t_map *map)
 	enemy_loop(map);
 	if (map->nmb_coins == 0)
 		animate_open_exit(map);
-	// printf("x enemy %d, y enemy %d\n", map->enemy[0].cord.x, map->enemy[0].cord.y);
 	mlx_put_image_to_window(map->mlx, map->win, map->tex.composite.img, 0, 0);
 	mlx_string_put(map->mlx, map->win, 10, 10, 0xFF0000, "zakaria howa li kayn");
-	//print_map(map);
 	return(1);
 }
 
@@ -704,6 +705,12 @@ void	init_xpm(t_map	*map)
     map->tex.enemy_down.addr = mlx_get_data_addr(map->tex.enemy_down.img, &map->tex.enemy_down.bpp, &map->tex.enemy_down.line_length, &map->tex.enemy_down.endian);
     map->tex.enemy_idle.img = mlx_xpm_file_to_image(map->mlx, "../textures/ass/Skel_idle_down.xpm", &map->tex.enemy_idle.width, &map->tex.enemy_idle.height);
     map->tex.enemy_idle.addr = mlx_get_data_addr(map->tex.enemy_idle.img, &map->tex.enemy_idle.bpp, &map->tex.enemy_idle.line_length, &map->tex.enemy_idle.endian);
+}
+
+int	ft_exit(int i)
+{
+	exit(i);
+	return (0);
 }
 
 int rendring(t_map *map) 
@@ -771,6 +778,7 @@ int rendring(t_map *map)
 	printf(" y = %du - x = %du\n", map->player.cord.y, map->player.cord.x);
     mlx_put_image_to_window(map->mlx, map->win, map->tex.composite.img, 0, 0);
 	mlx_hook(map->win, 2, 1L<<0, key_press, map);
+	mlx_hook(map->win, 17, 0, ft_exit, 0); 
 	mlx_loop_hook(map->mlx, game_loop, map);
     mlx_loop(map->mlx);
     return 0;
