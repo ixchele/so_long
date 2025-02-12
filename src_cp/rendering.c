@@ -13,7 +13,7 @@
 #include "so_long.h"
 #include <bits/time.h>
 #include <math.h>
-#include <mlx.h>
+#include "mlx.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>

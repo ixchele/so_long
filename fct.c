@@ -13,7 +13,6 @@ typedef struct s_data {
     double  offset_y;
 } t_data;
 
-// Convertit des coordonnées mathématiques en coordonnées écran
 int to_screen_x(double x, t_data *img) {
     return (int)(x * img->scale_x + img->offset_x);
 }
@@ -22,7 +21,6 @@ int to_screen_y(double y, t_data *img) {
     return (int)(img->offset_y - y * img->scale_y);
 }
 
-// Dessine une fonction mathématique
 void draw_function(t_data *img, double (*f)(double), double x_min, double x_max, int color) {
     double step = 0.01; // Précision du tracé
     double x = x_min;
@@ -31,23 +29,18 @@ void draw_function(t_data *img, double (*f)(double), double x_min, double x_max,
         double y1 = f(x);
         double y2 = f(x + step);
 
-        // Convertir les coordonnées mathématiques en pixels
         int x1_pix = to_screen_x(x, img);
         int y1_pix = to_screen_y(y1, img);
         int x2_pix = to_screen_x(x + step, img);
         int y2_pix = to_screen_y(y2, img);
-
-        // Dessiner un segment entre deux points consécutifs
         mlx_pixel_put(img->mlx_ptr, img->win_ptr, x1_pix, y1_pix, color);
         mlx_pixel_put(img->mlx_ptr, img->win_ptr, x2_pix, y2_pix, color);
-
         x += step;
     }
 }
 
-// Exemple de fonction mathématique : parabole
 double parabola(double x) {
-    return x * x + 2 * x + 5;
+    return sqrt(2 - x * x);
 }
 
 // Exemple de fonction mathématique : sinus
@@ -63,15 +56,12 @@ int main() {
     img.height = 600;
     img.win_ptr = mlx_new_window(img.mlx_ptr, img.width, img.height, "Draw Function");
 
-    // Configuration du système de coordonnées
-    img.scale_x = 50;  // Pixels par unité sur l'axe X
-    img.scale_y = 50;  // Pixels par unité sur l'axe Y
+    img.scale_x = 600;  // Pixels par unité sur l'axe X
+    img.scale_y = 600;  // Pixels par unité sur l'axe Y
     img.offset_x = img.width / 2;  // Décalage pour centrer l'origine en X
     img.offset_y = img.height / 2; // Décalage pour centrer l'origine en Y
 
-    // Dessiner des fonctions
     draw_function(&img, parabola, -4, 4, 0xFF0000); // Parabole en rouge
-//   draw_function(&img, sine, -4 * M_PI, 4 * M_PI, 0x0000FF); // Sinus en bleu
 
     mlx_loop(img.mlx_ptr); // Boucle pour garder la fenêtre ouverte
     return 0;

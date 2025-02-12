@@ -18,41 +18,6 @@
 #include <string.h>
 #include <time.h>
 
-
-void	my_free(void *ptr)
-{
-	if (ptr)
-	{
-		free(ptr);
-		ptr = NULL;
-	}
-}
-
-void free_struct(t_map *map)
-{
-	int i = 0;
-	while (i < map->items)
-	{
-		my_free(&map->coin[i]);
-		i++;
-	}
-	my_free(map->coin);
-	i = 0;
-	while (i < map->skel)
-	{
-		my_free(&map->enemy[i]);
-		i++;
-	}
-	my_free(map->enemy);
-	i = 0;
-	while (map->map[i])
-	{
-		my_free(&map->map[i]);
-		i++;
-	}
-	my_free(map->map);
-}
-
 void	get_player_inf(t_map *map, int i, int j)
 {
 	map->is_there_player = true;
@@ -105,7 +70,7 @@ void	get_enemy_inf(t_map *map, int i, int j)
 
 bool	check_elements(t_map *map)
 {
-	unsigned int	(i), (j);
+	int	(i), (j);
 	i = 1;
 	map->coin = malloc(sizeof(t_coin));
 	if (!map->coin)
@@ -163,9 +128,9 @@ bool check_walls(t_map *map)
 	{
 		if (map->map[i][0] != '1' || map->map[i][map->cord.witdh - 1] != '1')
 			return (false);
-		if (i == map->cord.height && ft_strlen(map->map[i]) != map->cord.witdh)
+		if (i == map->cord.height && (int)ft_strlen(map->map[i]) != map->cord.witdh)
 			return (false);
-		if (i != map->cord.height && ft_strlen(map->map[i])  != map->cord.witdh)
+		if (i != map->cord.height && (int)ft_strlen(map->map[i])  != map->cord.witdh)
 			return (false);
 		i++;
 	}
@@ -234,10 +199,10 @@ void	check_map(t_map *map, char *str)
 
 char **read_(const char *file, t_map *map)
 {
-	char **map_arr;
-	char *line;
-	char *tmp;
-	int i, fd;
+	char 	**map_arr;
+	char 	*line;
+	char 	*tmp;
+	int		fd;
 
 	map_arr = NULL;
 	line = NULL;
@@ -360,8 +325,8 @@ bool	exit_reachable(char **map, int i, int j)
 bool	is_playebal(t_map *map)
 {
 	char	**flood_map;
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	flood_map = malloc(sizeof(char *) * map->cord.height);
@@ -376,7 +341,12 @@ bool	is_playebal(t_map *map)
 		}
 		i++;
 	}
+	for (i = 0; i < map->cord.height; i++)
+		printf("%s\n", flood_map[i]);
+	printf("\n");
 	flood_fill(flood_map, map->player.cord.x , map->player.cord.y);
+	for (i = 0; i < map->cord.height; i++)
+		printf("%s\n", flood_map[i]);
 	i = 0;
 	while (i < map->cord.height)
 	{
@@ -415,7 +385,6 @@ bool	is_valid(t_map *map)
 int main(int ac , char **av)
 {
 	t_map map1;
-	char	**flood_map;
 
 	if (ac < 2)
 		return (0);

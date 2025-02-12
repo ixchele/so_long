@@ -7,14 +7,19 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
-                "-lmlx - lXext -lX11",
+                "/home/zbengued/Desktop/so_long/src_cp/a.out",
+                
                 "get_next_line.c",
                 "get_next_line_utils.c",
                 "rendering.c",
-                ""
+                "check.c",
+                "libftprintf.a",
+                "/home/zbengued/Desktop/so_long/src_cp/libmlx.a",
+                "/home/zbengued/Desktop/so_long/src_cp/libmlx_Linux.a",
+                
+                "-lXext",
+                "-lX11",
             ],
             "options": {
                 "cwd": "${fileDirname}"
