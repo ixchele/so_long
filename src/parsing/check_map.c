@@ -48,16 +48,12 @@ static void	check_map(t_map *map, char *str)
 	{
 		if (str[i] == '\n')
 		{
+			if (i == 0)
+				ft_error(map, "Empty Line at Start of Map");
 			if (!str[i + 1])	
-			{
-				free(str);
 				ft_error(map, "New Line at End of Map");
-			}
 			if (str[i + 1] == '\n')
-			{
-				free(str);
 				ft_error(map, "Consecutive New Lines in Map");
-			}
 			map->cord.height++;
 			if (!map->cord.witdh)
 				map->cord.witdh = i;
@@ -76,6 +72,7 @@ static char	*read_loop(t_map *map, int fd)
 	char	*tmp;
 	char	*ret;
 
+	(void)map;
 	ret = NULL;
 	while (1)
 	{
@@ -84,32 +81,54 @@ static char	*read_loop(t_map *map, int fd)
 			break ;
 		ret = map_join(ret, tmp);
 		if (!ret)
-			{
-				close(fd);
-				ft_error(map, "StrJoin Failed!");
-			}
+			return (NULL);
 		free(tmp);
 	}
 	return (ret);
 }
 
+void	check_lines(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	map->line_length = ft_strlen(map->map[i]);
+	i++;
+	while (map->map[i])
+	{
+		if ((int)ft_strlen(map->map[i]) != map->line_length)
+			ft_error(map, "Map is Not Rectangular!");
+		i++;
+	}
+}
+
 void	read_(const char *file, t_map *map)
 {
-	char	*line;
 	int		fd;
 
-	line = NULL;
+	map->line = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		ft_error(map, "Open Failed!");
-	line = read_loop(map, fd);
+	map->line = read_loop(map, fd);
 	close(fd);
-	if (!line)
+	if (!map->line)
 		ft_error(map, "Map Read Failed!");;
-	check_map(map, line);
-	map->map = ft_split(line, '\n');
-	map->flood_map = ft_split(line, '\n');
-	free(line);
+	check_map(map, map->line);
+	map->map = ft_split(map->line, '\n');
+	map->flood_map = ft_split(map->line, '\n');
+	free(map->line);
+	map->line = NULL;
 	if (!map->map || !map->flood_map)
 		ft_error(map, "Split Failed!");;
+	check_lines(map);
 }
+
+		// map->new_line_length = ft_strlen(tmp);
+		// if (tmp[map->new_line_length - 1] == '\n')
+		// 	map->new_line_length--;
+		// if (!map->line_length)
+		// 	map->line_length = map->new_line_length;
+		// if(map->new_line_length != map->line_length)
+		// 	return(close(fd), free(tmp), free(ret),
+		// 		ft_error(map, "Map is Not Rectangular!"), NULL);

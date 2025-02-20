@@ -6,7 +6,7 @@
 #    By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/11 16:17:43 by zbengued          #+#    #+#              #
-#    Updated: 2025/02/18 17:13:14 by zbengued         ###   ########.fr        #
+#    Updated: 2025/02/19 16:37:37 by zbengued         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS		=	src/parsing/check_element.c \
 				src/rendering/animate_functions_enemy.c \
 				src/rendering/animate_functions_other.c \
 				src/rendering/animate_functions_player.c \
+				src/rendering/movements_enemy_ran.c \
 				src/rendering/check_functions.c \
 				src/rendering/draw_functions_one.c \
 				src/rendering/draw_functions_three.c \

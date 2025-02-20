@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/**************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
@@ -113,6 +113,7 @@ typedef struct s_map
 {
 	void			*mlx;
 	void			*win;
+	char			*line;
 	char			**map;
 	char			**flood_map;
 	bool			is_there_exit;
@@ -140,6 +141,8 @@ typedef struct s_map
 	bool			anim_player;
 	int				rate;
 	int				new_rate;
+	int				line_length;
+	int				new_line_length;
 
 }					t_map;
 

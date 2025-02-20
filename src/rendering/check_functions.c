@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:58:46 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/18 17:19:11 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:38:55 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_enemy(t_map *map)
 	i = 0;
 	while (i < map->skel)
 	{
-		if (compare_coords(&map->enemy[i].cord, &map->player.cord))	
+		if (compare_coords(&map->enemy[i].cord, &map->player.cord))
 		{
 			ft_printf("You Lost! You were killed by a Skeleton!\n");
 			ft_exit(map, 0);
@@ -38,28 +38,28 @@ void	check_enemy(t_map *map)
 void	check_exit(t_map *map, int x, int y)
 {
 	if (map->player.move == 'D' && map->map[y + 1][x] == 'E' && !map->nmb_coins)
-		{
-			ft_printf("You Win! You have successfully exited the map!\n");
-			ft_exit(map, 0);
-		}
+	{
+		ft_printf("You Win! You have successfully exited the map!\n");
+		ft_exit(map, 0);
+	}
 	else if (map->player.move == 'U' && map->map[y - 1][x] == 'E'
 			&& !map->nmb_coins)
-		{
-			ft_printf("You Win! You have successfully exited the map!\n");
-			ft_exit(map, 0);
-		}
+	{
+		ft_printf("You Win! You have successfully exited the map!\n");
+		ft_exit(map, 0);
+	}
 	else if (map->player.move == 'L' && map->map[y][x - 1] == 'E'
 			&& !map->nmb_coins)
-		{
-			ft_printf("You Win! You have successfully exited the map!\n");
-			ft_exit(map, 0);
-		}
+	{
+		ft_printf("You Win! You have successfully exited the map!\n");
+		ft_exit(map, 0);
+	}
 	else if (map->player.move == 'R' && map->map[y][x + 1] == 'E'
 			&& !map->nmb_coins)
-		{
-			ft_printf("You Win! You have successfully exited the map!\n");
-			ft_exit(map, 0);
-		}
+	{
+		ft_printf("You Win! You have successfully exited the map!\n");
+		ft_exit(map, 0);
+	}
 }
 
 static void	dec_coin(t_map *map, int i)

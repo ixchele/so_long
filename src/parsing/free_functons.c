@@ -71,6 +71,7 @@ void	destroy_images(t_map *map)
 
 void	ft_exit(t_map *map, int code)
 {
+	safe_free(map->line);
 	free_array(map->map);
 	free_array(map->flood_map);
 	destroy_images(map);

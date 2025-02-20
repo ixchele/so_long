@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:08:09 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/18 14:17:55 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:41:27 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	game_loop(t_map *map)
 	if (map->nmb_coins == 0)
 		animate_open_exit(map);
 	mlx_put_image_to_window(map->mlx, map->win, map->tex.composite.img, 0, 0);
-	mlx_string_put(map->mlx, map->win, 3, map->cord.height * SCALE + 30, 0x000000,
-		"NUMBER OF STEPS : ");
-	mlx_string_put(map->mlx, map->win, 10,map->cord.height * SCALE + 10, 0x000000,
-		"simo howa li kayn");
-	mlx_string_put(map->mlx, map->win, SCALE * 2, map->cord.height * SCALE + 30, 0x000000,
-				map->nmb_of_steps);
+	mlx_string_put(map->mlx, map->win, 3,
+		map->cord.height * SCALE + 30, 0x000000, "NUMBER OF STEPS : ");
+	mlx_string_put(map->mlx, map->win,
+		10, map->cord.height * SCALE + 10, 0x000000, "simo howa li kayn");
+	mlx_string_put(map->mlx, map->win, SCALE * 2,
+		map->cord.height * SCALE + 30, 0x000000, map->nmb_of_steps);
 	free(map->nmb_of_steps);
 	map->nmb_of_steps = NULL;
 	return (1);
@@ -67,7 +67,6 @@ int	mlx_exit(t_map *map)
 	ft_exit(map, 0);
 	return (0);
 }
-
 
 int	rendring(t_map *map)
 {

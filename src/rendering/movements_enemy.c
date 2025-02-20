@@ -12,7 +12,7 @@
 
 #include "../../includes/so_long.h"
 
-static bool no_collision(t_map *map, t_cord cord)
+static bool	no_collision(t_map *map, t_cord cord)
 {
 	int (i) = 0;
 	if (map->map[cord.y - 1][cord.x] == 'X')
@@ -28,24 +28,14 @@ static bool no_collision(t_map *map, t_cord cord)
 	return (true);
 }
 
-// bool	is_valid_move_enemy(t_map *map, int n, int z, int i)
-// {
-// 	map->enemy[i].anim_enemy = true;
-// 	if (map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != '1'
-// 		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'E'
-// 		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'X'
-// 		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'C')
-// 		return (true);
-// 	map->enemy[i].anim_enemy = false;
-// 	return (false);
-// }
 bool	is_valid_move_enemy(t_map *map, int n, int z, int i)
 {
 	map->enemy[i].anim_enemy = true;
 	if (map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != '1'
 		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'E'
 		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'X'
-		&& no_collision(map, (t_cord){map->enemy[i].cord.x + z, map->enemy[i].cord.y + n, 0, 0})
+		&& no_collision(map, (t_cord){map->enemy[i].cord.x + z,
+			map->enemy[i].cord.y + n, 0, 0})
 		&& map->map[map->enemy[i].cord.y + n][map->enemy[i].cord.x + z] != 'C')
 		return (true);
 	map->enemy[i].anim_enemy = false;
@@ -89,13 +79,6 @@ char	get_best_move(t_map *map, int i, int offset)
 	return (get_random_move());
 }
 
-char	get_random_move(void)
-{
-	static char	moves[] = {'U', 'D', 'L', 'R'};
-
-	return (moves[rand() % 4]);
-}
-
 void	validate_move(t_map *map, int i)
 {
 	if (map->enemy[i].move == 'L' && is_valid_move_enemy(map, 0, -1, i))
@@ -108,5 +91,4 @@ void	validate_move(t_map *map, int i)
 		map->enemy[i].move = 'D';
 	else
 		map->enemy[i].move = 'I';
-		//map->enemy[i].move = get_random_move();
 }
