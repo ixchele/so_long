@@ -51,11 +51,12 @@ int	game_loop(t_map *map)
 	if (map->nmb_coins == 0)
 		animate_open_exit(map);
 	mlx_put_image_to_window(map->mlx, map->win, map->tex.composite.img, 0, 0);
+	mlx_set_font(map->mlx, map->win, "rk24");
 	mlx_string_put(map->mlx, map->win, 3,
 		map->cord.height * SCALE + 30, 0x000000, "NUMBER OF STEPS : ");
-	mlx_string_put(map->mlx, map->win,
-		10, map->cord.height * SCALE + 10, 0x000000, "simo howa li kayn");
-	mlx_string_put(map->mlx, map->win, SCALE * 2,
+	//mlx_string_put(map->mlx, map->win,
+	// 	10, map->cord.height * SCALE + 10, 0x000000, "simo howa li kayn");
+	mlx_string_put(map->mlx, map->win, SCALE * 5,
 		map->cord.height * SCALE + 30, 0x000000, map->nmb_of_steps);
 	free(map->nmb_of_steps);
 	map->nmb_of_steps = NULL;
