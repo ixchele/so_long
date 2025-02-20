@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 17:59:16 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/20 16:49:43 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/14 20:49:47 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	get_infos(t_map *map, int i, int j)
 		get_player_inf(map, i, j);
 	else if (map->map[i][j] == 'C')
 		get_coin_inf(map, i, j);
+	else if (map->map[i][j] == 'X')
+		get_enemy_inf(map, i, j);
 	else if (map->map[i][j] != '1' && map->map[i][j] != '0')
 		ft_error(map, "Invalid character in map");
 }
@@ -100,7 +102,7 @@ char	*map_join(char *s1, char *s2)
 		return (NULL);
 	ret = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!ret)
-		return (ft_printf("Malloc Failed\n"), NULL);
+		return (printf("Malloc Failed\n"), NULL);
 	i = -1;
 	while (s1[++i])
 		ret[i] = s1[i];

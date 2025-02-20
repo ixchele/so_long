@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:57:41 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/20 16:28:40 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:06:37 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*map_join(char *s1, char *s2)
 		return (NULL);
 	ret = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!ret)
-		return (ft_printf("Malloc Failed\n"), NULL);
+		return (printf("Malloc Failed\n"), NULL);
 	i = -1;
 	while (s1[++i])
 		ret[i] = s1[i];
@@ -61,10 +61,7 @@ static void	check_map(t_map *map, char *str)
 		i++;
 	}
 	if (map->cord.height > 29 || map->cord.witdh > 55)
-	{
-		free(str);
 		ft_error(map, "Map is Too Big! ( Max 29x55 )");
-	}
 }
 
 static char	*read_loop(t_map *map, int fd)
