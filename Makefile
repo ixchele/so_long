@@ -12,7 +12,7 @@
 
 NAME		=	so_long
 NAME_BNS	=	so_long_bonus
-LIBFT		=	ft_printf/libftprintf.a
+LIBFT		=	printf/libftprintf.a
 CC			=	cc #-fsanitize=address -g3
 CFLAGS		=	-Wall -Wextra -Werror 
 RM			= 	rm -f
@@ -72,7 +72,7 @@ all:		$(NAME)
 bonus:		$(NAME_BNS)
 
 $(LIBFT):
-	make -C ft_printf
+	make -C printf
 
 $(NAME_BNS): $(OBJS_BNS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS_BNS) $(LIBFT) -lm -lmlx -lXext -lX11 -o $(NAME_BNS)
@@ -83,12 +83,12 @@ $(NAME): $(OBJS) $(LIBFT)
 clean:
 	$(RM) -f $(OBJS)
 	$(RM) -f $(OBJS_BNS)
-	make clean -C ft_printf
+	make clean -C printf
 
 fclean: clean
 	$(RM) $(NAME)
 	$(RM) $(NAME_BNS)
-	make fclean -C ft_printf
+	make fclean -C printf
 
 re: fclean all
 
