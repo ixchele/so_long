@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_functions_tow.c                               :+:      :+:    :+:   */
+/*   draw_functions_two.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 22:04:46 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/11 16:04:52 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 04:43:57 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ void	clear_frame(t_image *frame, t_map *map)
 	int	x;
 
 	int (y) = 0;
+	(void)map;
 	while (y < SCALE)
 	{
 		x = 0;
 		while (x < SCALE)
 		{
-			put_pixel(frame, x, y, get_pixel_color(&map->tex.grass, 0, 0));
+			put_pixel(frame, x, y, 0xFF000000);
 			x++;
 		}
 		y++;

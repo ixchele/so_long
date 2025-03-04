@@ -6,7 +6,7 @@
 #    By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/11 16:17:43 by zbengued          #+#    #+#              #
-#    Updated: 2025/02/23 16:37:44 by zbengued         ###   ########.fr        #
+#    Updated: 2025/02/23 16:16:53 by zbengued         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	so_long
 NAME_BNS	=	so_long_bonus
 LIBFT		=	printf/libftprintf.a
 CC			=	cc -fsanitize=address -g3
-CFLAGS		=	#-Wall -Wextra -Werror 
+CFLAGS		=	-Wall -Wextra -Werror 
 RM			= 	rm -f
 SRCS		=	src/parsing/check_element.c \
 				src/parsing/check_element_utils.c \
@@ -39,7 +39,7 @@ SRCS		=	src/parsing/check_element.c \
 				src/rendering/merge_functions.c \
 				src/rendering/movements_enemy.c \
 				src/rendering/movements_player.c \
-				src/rendering/rendering.c
+				src/rendering/rendering.c 
 SRCS_BNS	=	src_bns/parsing/check_element.c \
 				src_bns/parsing/check_element_utils.c \
 				src_bns/parsing/check_map.c \

@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 22:07:44 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/12 22:30:57 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 03:06:54 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static void	one_step_player(t_map *map, int x, int y)
 
 static void	choose_animation(t_map *map)
 {
+	static int i_count;
+
+	if (i_count % 6 == 0)
+		i_count = 0;
 	merge_images(&map->tex.composite, &map->tex.grass, (t_cord){SCALE
 		* map->player.cord.x, SCALE * map->player.cord.y, 0, 0});
 	if (map->player.move == 'R')
@@ -50,11 +54,12 @@ static void	choose_animation(t_map *map)
 	{
 		clear_frame(&map->tex.frame_player, map);
 		choose_frame(&map->tex.frame_player, &map->tex.p_i,
-			map->i_player);
+			i_count);
 		merge_player_images(map, &map->tex.composite, &map->tex.frame_player,
 			(t_cord){SCALE * map->player.cord.x, SCALE * map->player.cord.y,
 			0, 0});
 	}
+	i_count++;
 }
 
 void	animate_player(t_map *map)

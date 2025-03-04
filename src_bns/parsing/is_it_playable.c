@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/so_long.h"
+#include <stddef.h>
 
 static void	flood_fill(char **flood_map, size_t x, size_t y)
 {
@@ -24,6 +25,35 @@ static void	flood_fill(char **flood_map, size_t x, size_t y)
 	flood_fill(flood_map, x, y - 1);
 }
 
+// static void	flood_fill_ite(char **flood_map, size_t x, size_t y)
+// {
+// 	t_cord	*stack;
+//
+// 	int (stack_size) = 0;
+// 	int (max_y) = 100;
+// 	int (max_x) = 100;
+// 	stack = malloc(max_x * max_y * sizeof(t_cord));
+// 	stack[stack_size++] = (t_cord){x, y, 0, 0};
+// 	while (stack_size > 0)
+// 	{
+// 		t_cord p = stack[--stack_size];
+// 		if (p.x >= max_x || p.y >= max_y)
+// 			continue;
+// 		if (flood_map[p.y][p.x] != 'C' &&
+// 			flood_map[p.y][p.x] != '0'&& flood_map[p.y][p.x] != 'P')
+// 			continue;
+// 		flood_map[p.y][p.x] = '#';
+// 		if (p.x + 1 < max_x)
+// 			stack[stack_size++] = (t_cord){p.x + 1, p.y, 0, 0};
+// 		if (p.x > 0)
+// 			stack[stack_size++] = (t_cord){p.x - 1, p.y, 0, 0};
+// 		if (p.y + 1 < max_y)
+// 			stack[stack_size++] = (t_cord){p.x, p.y + 1, 0, 0};
+// 		if (p.y > 0)
+// 			stack[stack_size++] = (t_cord){p.x, p.y - 1, 0, 0};
+// 	}
+// }
+//
 static bool	exit_reachable(char **map, int i, int j)
 {
 	if (map[i][j + 1] != '#' && map[i][j - 1] != '#' && map[i + 1][j] != '#'

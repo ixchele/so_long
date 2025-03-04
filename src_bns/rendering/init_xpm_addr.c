@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 18:30:23 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/13 18:37:19 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 04:47:23 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ void	load_xpm_addrs_other(t_map *map)
 	map->tex.lose.addr = mlx_get_data_addr(map->tex.lose.img,
 			&map->tex.lose.bpp, &map->tex.lose.line_length,
 			&map->tex.lose.endian);
+	map->tex.tr_im.addr = mlx_get_data_addr(map->tex.tr_im.img,
+			&map->tex.tr_im.bpp, &map->tex.tr_im.line_length,
+			&map->tex.tr_im.endian);
 }
 
 void	init_all_xpms_adds(t_map *map)
@@ -113,6 +116,6 @@ void	init_all_xpms_adds(t_map *map)
 		|| !map->tex.frame_player.addr || !map->tex.coin_.addr
 		|| !map->tex.exit.addr || !map->tex.wall.addr
 		|| !map->tex.grass.addr || !map->tex.win.addr
-		|| !map->tex.lose.addr)
+		|| !map->tex.lose.addr || !map->tex.tr_im.addr)
 		ft_error(map, "Failed to Load XPM Addresses");
 }

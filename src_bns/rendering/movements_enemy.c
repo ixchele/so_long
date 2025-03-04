@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:47:14 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/13 13:57:50 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 03:36:00 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,27 @@ static bool	no_collision(t_map *map, t_cord cord)
 		i++;
 	if (map->map[cord.y][cord.x + 1] == 'X')
 		i++;
+	//
+	// if (map->map[cord.y - 1][cord.x] != '1')
+	// {
+	// 	if (map->map[cord.y - 2][cord.x] == 'X')
+	// 		i++;
+	// }
+	// if (map->map[cord.y + 1][cord.x] != '1')
+	// {
+	// 	if (map->map[cord.y + 2][cord.x] == 'X')
+	// 		i++;
+	// }
+	// if (map->map[cord.y][cord.x - 1] != '1')
+	// {
+	// 	if (map->map[cord.y][cord.x - 2] == 'X')
+	// 	i++;
+	// }
+	// if (map->map[cord.y][cord.x - 1] != '1')
+	// {
+	// 	if (map->map[cord.y][cord.x + 2] == 'X')
+	// 		i++;
+	// }
 	if (i > 1)
 		return (false);
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:07:19 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/20 16:07:38 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 04:44:36 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
+# include <X11/X.h>
+# include <X11/keysym.h>
 # include <mlx.h>
 # include <stdbool.h>
 # include <stddef.h>
@@ -50,6 +52,7 @@ typedef struct s_image
 
 typedef struct s_textures
 {
+	t_image			tr_im;
 	t_image			exit;
 	t_image			grass;
 	t_image			wall;
