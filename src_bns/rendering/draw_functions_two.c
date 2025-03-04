@@ -61,7 +61,7 @@ void	clear_frame(t_image *frame, t_map *map)
 		x = 0;
 		while (x < SCALE)
 		{
-			put_pixel(frame, x, y, 0xFF000000);
+			put_pixel(frame, x, y, get_pixel_color(&map->tex.grass, 0, 0));
 			x++;
 		}
 		y++;
