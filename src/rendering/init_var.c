@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:17:10 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/13 15:22:42 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 04:31:13 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_enemy(t_map *map)
 		map->enemy[i].stuned = 0;
 		map->enemy[i].anim_enemy = false;
 		map->tex.frame_enemy[i].img = mlx_xpm_file_to_image(map->mlx,
-				"Textures/Grass.xpm",
+				"Textures/tr_im.xpm",
 				&map->tex.frame_enemy[i].width,
 				&map->tex.frame_enemy[i].height);
 		if (!map->tex.frame_enemy[i].img)

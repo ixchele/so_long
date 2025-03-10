@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movements_enemy_ran.c                              :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 16:36:56 by zbengued          #+#    #+#             */
-/*   Updated: 2025/03/04 03:54:11 by zbengued         ###   ########.fr       */
+/*   Created: 2025/03/06 21:59:45 by zbengued          #+#    #+#             */
+/*   Updated: 2025/03/06 22:04:29 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/so_long.h"
+#include "libft.h"
 
-char	get_random_move(void)
+void	*ft_realloc(void *ptr, size_t size)
 {
-	static char	moves[] = {'U', 'D', 'L', 'R'};
+	void	*new;
 
-	return (moves[rand() % 4]);
+	if (size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	new = malloc(size);
+	if (!new)
+		return (NULL);
+	if (ptr)
+	{
+		ft_memcpy(new, ptr, size);
+		free(ptr);
+	}
+	return (new);
 }

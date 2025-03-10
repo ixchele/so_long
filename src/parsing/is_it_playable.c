@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/so_long.h"
+#include <stddef.h>
 
 static void	flood_fill(char **flood_map, size_t x, size_t y)
 {

@@ -39,7 +39,7 @@ void	moove_player(t_map *map)
 
 int	key_press(int keycode, t_map *map)
 {
-	if (keycode == ESC)
+	if (keycode == XK_Escape)
 		ft_exit(map, 0);
 	if (map->anim_player)
 		return (0);

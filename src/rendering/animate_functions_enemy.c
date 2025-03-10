@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 22:13:02 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/12 22:28:48 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 03:58:28 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static void	one_step_enemy(t_map *map, int i, int x, int y)
 
 static void	choose_animation(t_map *map, int i)
 {
+	static int	e_count;
+
+	if (e_count % 6 == 0)
+		e_count = 0;
 	merge_images(&map->tex.composite, &map->tex.grass, (t_cord){SCALE
 		* map->enemy[i].cord.x, SCALE * map->enemy[i].cord.y, 0, 0});
 	if (map->enemy[i].move == 'R')
@@ -51,10 +55,12 @@ static void	choose_animation(t_map *map, int i)
 		clear_frame(&map->tex.frame_enemy[i], map);
 		choose_frame(&map->tex.frame_enemy[i],
 			&map->tex.e_i,
-			map->enemy[i].i_enemy);
+			e_count);
 		merge_enemy_images(map, &map->tex.frame_enemy[i], (t_cord){SCALE
 			* map->enemy[i].cord.x, SCALE * map->enemy[i].cord.y, 0, 0}, i);
+		map->enemy[i].anim_enemy = false;
 	}
+	e_count++;
 }
 
 void	animate_enemy(t_map *map, int i)
@@ -79,21 +85,4 @@ void	animate_enemy(t_map *map, int i)
 	if ((int)map->enemy[i].dellay_enemy % map->rate == 0)
 		choose_animation(map, i);
 	map->enemy[i].count_enemy++;
-}
-
-void	animate_idle_enemy(t_map *map, int i)
-{
-	static int	count = 0;
-
-	if (count % map->rate == 0)
-	{
-		draw_enemy(map);
-		map->enemy[i].i_enemy++;
-		if (map->enemy[i].i_enemy == 6)
-		{
-			map->enemy[i].i_enemy = 0;
-			count = 0;
-		}
-	}
-	count++;
 }

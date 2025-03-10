@@ -6,11 +6,12 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:58:46 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/19 16:38:55 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:34:16 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/so_long.h"
+#include <mlx.h>
 
 bool	compare_coords(t_cord *cord1, t_cord *cord2)
 {
@@ -27,10 +28,7 @@ void	check_enemy(t_map *map)
 	while (i < map->skel)
 	{
 		if (compare_coords(&map->enemy[i].cord, &map->player.cord))
-		{
-			ft_printf("You Lost! You were killed by a Skeleton!\n");
-			ft_exit(map, 0);
-		}
+			lose_loop(map);
 		i++;
 	}
 }
@@ -38,28 +36,16 @@ void	check_enemy(t_map *map)
 void	check_exit(t_map *map, int x, int y)
 {
 	if (map->player.move == 'D' && map->map[y + 1][x] == 'E' && !map->nmb_coins)
-	{
-		ft_printf("You Win! You have successfully exited the map!\n");
-		ft_exit(map, 0);
-	}
+		win_loop(map);
 	else if (map->player.move == 'U' && map->map[y - 1][x] == 'E'
 			&& !map->nmb_coins)
-	{
-		ft_printf("You Win! You have successfully exited the map!\n");
-		ft_exit(map, 0);
-	}
+		win_loop(map);
 	else if (map->player.move == 'L' && map->map[y][x - 1] == 'E'
 			&& !map->nmb_coins)
-	{
-		ft_printf("You Win! You have successfully exited the map!\n");
-		ft_exit(map, 0);
-	}
+		win_loop(map);
 	else if (map->player.move == 'R' && map->map[y][x + 1] == 'E'
 			&& !map->nmb_coins)
-	{
-		ft_printf("You Win! You have successfully exited the map!\n");
-		ft_exit(map, 0);
-	}
+		win_loop(map);
 }
 
 static void	dec_coin(t_map *map, int i)

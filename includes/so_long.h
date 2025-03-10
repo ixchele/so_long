@@ -52,7 +52,6 @@ typedef struct s_image
 
 typedef struct s_textures
 {
-	t_image			tr_im;
 	t_image			exit;
 	t_image			grass;
 	t_image			wall;

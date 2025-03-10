@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:14:47 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/13 18:41:06 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 04:45:54 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	load_xpms_coin(t_map *map)
 void	load_xpms_other(t_map *map)
 {
 	map->tex.frame_player.img = mlx_xpm_file_to_image(map->mlx,
-			"Textures/Grass.xpm", &map->tex.frame_player.width,
+			"Textures/tr_im.xpm", &map->tex.frame_player.width,
 			&map->tex.frame_player.height);
 	map->tex.coin_.img = mlx_xpm_file_to_image(map->mlx, "Textures/Coin.xpm",
 			&map->tex.coin_.width, &map->tex.coin_.height);
@@ -88,6 +88,12 @@ void	load_xpms_other(t_map *map)
 	map->tex.p_i.img = mlx_xpm_file_to_image(map->mlx,
 			"Textures/P_I.xpm", &map->tex.p_i.width,
 			&map->tex.p_i.height);
+	map->tex.win.img = mlx_xpm_file_to_image(map->mlx,
+			"Textures/Win.xpm", &map->tex.win.width,
+			&map->tex.win.height);
+	map->tex.lose.img = mlx_xpm_file_to_image(map->mlx,
+			"Textures/Lose.xpm", &map->tex.lose.width,
+			&map->tex.lose.height);
 }
 
 void	init_all_xpms(t_map *map)
@@ -105,6 +111,7 @@ void	init_all_xpms(t_map *map)
 		|| !map->tex.coin[4].img || !map->tex.coin[5].img
 		|| !map->tex.frame_player.img || !map->tex.coin_.img
 		|| !map->tex.exit.img || !map->tex.wall.img
-		|| !map->tex.grass.img)
+		|| !map->tex.grass.img || !map->tex.win.img
+		|| !map->tex.lose.img)
 		ft_error(map, "Failed to Load XPMs");
 }

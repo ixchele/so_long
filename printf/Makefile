@@ -30,6 +30,7 @@ all:		$(NAME)
 bonus: all
 	
 $(NAME): $(OBJ_BONUS)
+	make bonus -C $(LIBFT)
 	make -C $(LIBFT)
 	cp libft/libft.a .
 	mv libft.a $(NAME)

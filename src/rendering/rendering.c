@@ -6,11 +6,12 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:08:09 by zbengued          #+#    #+#             */
-/*   Updated: 2025/02/19 16:41:27 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/04 03:56:54 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/so_long.h"
+#include <X11/X.h>
 #include <stdio.h>
 
 #define SCALE 70
@@ -28,12 +29,15 @@ void	enemy_loop(t_map *map)
 			&& !map->enemy[i].anim_enemy)
 		{
 			map->enemy[i].move = get_best_move(map, i, 0);
-			animate_enemy(map, i++);
+			animate_enemy(map, i);
+			i++;
 			continue ;
 		}
 		else if (!map->enemy[i].anim_enemy)
+		{
 			map->enemy[i].move = get_random_move();
-		validate_move(map, i);
+			validate_move(map, i);
+		}
 		animate_enemy(map, i);
 		i++;
 	}
@@ -86,7 +90,7 @@ int	rendring(t_map *map)
 	map->tex.composite.height = x;
 	init_composit_image(map);
 	mlx_put_image_to_window(map->mlx, map->win, map->tex.composite.img, 0, 0);
-	mlx_hook(map->win, 2, 1L << 0, key_press, map);
+	mlx_hook(map->win, KeyPress, KeyPressMask, key_press, map);
 	mlx_hook(map->win, 17, 0, mlx_exit, map);
 	mlx_loop_hook(map->mlx, game_loop, map);
 	mlx_loop(map->mlx);

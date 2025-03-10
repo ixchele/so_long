@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 10:08:34 by zbengued          #+#    #+#             */
-/*   Updated: 2024/11/14 11:58:44 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/03/06 22:04:49 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+void	*ft_realloc(void *ptr, size_t size);
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
+	int				index;
 }	t_list;
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
