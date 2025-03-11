@@ -12,7 +12,7 @@
 
 NAME		=	so_long
 LIBFT		=	printf/libftprintf.a
-CC			=	cc #-fsanitize=address -g3
+CC			=	cc -g3 #-fsanitize=address -g3
 CFLAGS		=	-Wall -Wextra -Werror 
 RM			= 	rm -f
 SRCS		=	src/parsing/check_element.c \

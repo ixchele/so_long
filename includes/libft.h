@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+#include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -51,7 +52,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-void	*ft_realloc(void *ptr, size_t size);
+void	*ft_realloc(void *ptr, size_t size_old, size_t size_new);
 
 typedef struct s_list
 {

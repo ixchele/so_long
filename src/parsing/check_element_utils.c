@@ -30,7 +30,8 @@ void	get_coin_inf(t_map *map, int i, int j)
 {
 	t_coin	*tmp;
 
-	tmp = ft_realloc(map->coin, sizeof(t_coin) * (map->items + 1));
+	tmp = ft_realloc(map->coin, sizeof(t_coin) * (map->items),
+		sizeof(t_enemy) * (map->items + 1));
 	if (!tmp)
 		ft_error(map, "Error\n Realloc Failed\n");
 	map->coin = tmp;
@@ -48,7 +49,8 @@ void	get_enemy_inf(t_map *map, int i, int j)
 
 	if (map->skel == 99)
 		ft_error(map, "Too many enemies (Max enemies ; 98)");
-	tmp = ft_realloc(map->enemy, sizeof(t_enemy) * (map->skel + 1));
+	tmp = ft_realloc(map->enemy, sizeof(t_enemy) * (map->skel),
+		sizeof(t_enemy) * (map->skel + 1));
 	if (!tmp)
 		ft_error(map, "Realloc Failed\n");
 	map->enemy = tmp;

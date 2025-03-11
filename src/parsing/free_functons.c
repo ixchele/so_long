@@ -67,6 +67,8 @@ void	destroy_images(t_map *map)
 	safe_destroy(map, map->tex.coin_.img);
 	safe_destroy(map, map->tex.frame_player.img);
 	safe_destroy(map, map->tex.exit.img);
+	safe_destroy(map, map->tex.win.img);
+	safe_destroy(map, map->tex.lose.img);
 }
 
 void	ft_exit(t_map *map, int code)
